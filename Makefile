@@ -3,13 +3,10 @@ PLATFORM := $(shell go env GOOS)_$(shell go env GOARCH)
 PACKAGE := $(shell go list)
 TESTS := $(wildcard *_test.go **/*_test.go)
 SRC := $(filter-out $(TESTS), $(wildcard *.go **/*.go))
-BIN := $(value GOPATH)\pkg\$(PLATFORM)\$(PACKAGE).a
-
-echo: 
-	@echo $(value BIN)
+LIB := $(value GOPATH)\pkg\$(PLATFORM)\$(PACKAGE).a
 
 # build when changed
-$(BIN): $(SRC)
+$(LIB): $(SRC)
 	go install
 
 # run command at fixed intervals
@@ -17,11 +14,11 @@ watch: install
 	@kouhai -i 2s 'make test'
 
 # run all tests and rebuild when changed
-test: $(BIN)
+test: $(LIB)
 	@go test $(PACKAGE)/...
 
 # build and install application
-install: $(BIN)
+install: $(LIB)
 
 # remove application
 clean: 
