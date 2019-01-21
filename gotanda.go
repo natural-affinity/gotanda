@@ -7,10 +7,10 @@ import (
 	"testing"
 )
 
-// IsInvalidError compares errors
-func IsInvalidError(actual error, expected error) bool {
-	a := (actual != nil && expected != nil && actual.Error() != expected.Error())
-	b := (actual == nil && expected != nil)
+// CompareError (are errors the errors the same?)
+func CompareError(actual error, expected error) bool {
+	a := (actual != nil && expected != nil && actual.Error() == expected.Error())
+	b := (actual == nil && expected == nil)
 
 	return a || b
 }
