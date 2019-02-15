@@ -1,6 +1,7 @@
 package gotanda_test
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"testing"
@@ -80,6 +81,31 @@ func TestLoadTestFile(t *testing.T) {
 		if datastr != tc.Expected {
 			t.Errorf("Test: %s\nActual: %s\nExpected: %s\n",
 				tc.Name, datastr, tc.Expected)
+		}
+	}
+}
+
+func TestCapture(t *testing.T) {
+	cases := []struct {
+		Name     string
+		Text     string
+		Expected []byte
+	}{
+		{"empty", "", []byte("")},
+		{"text", "hello", []byte("hello")},
+	}
+
+	for _, tc := range cases {
+		abyte, astr := gotanda.Capture(func() {
+			fmt.Print(tc.Text)
+		})
+
+		byt := !bytes.Equal(abyte, tc.Expected)
+		str := !(astr == tc.Text)
+
+		if byt || str {
+			t.Errorf("Test: %s\nActual: %s\nExpected: %s\n",
+				tc.Name, abyte, tc.Expected)
 		}
 	}
 }

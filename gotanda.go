@@ -5,6 +5,8 @@ import (
 	"os/exec"
 	"path/filepath"
 	"testing"
+
+	capturer "github.com/kami-zh/go-capturer"
 )
 
 // CompareError (are errors the errors the same?)
@@ -33,4 +35,10 @@ func LoadTestFile(t *testing.T, dir string, name string) (string, []byte) {
 	}
 
 	return path, bytes
+}
+
+// Capture Output
+func Capture(p func()) ([]byte, string) {
+	str := capturer.CaptureStdout(p)
+	return []byte(str), str
 }
