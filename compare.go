@@ -32,7 +32,7 @@ func (gr *GoldenResult) Assert(t *testing.T, tc TestCase) {
 	}
 }
 
-// CompareCommand (are the *.input and *.golden files the same?)
+// CompareCommand (does .input command result in .golden output?)
 func CompareCommand(t *testing.T, tc TestCase, update *bool) *GoldenResult {
 	r := &GoldenResult{}
 
