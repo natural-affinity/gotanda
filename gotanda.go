@@ -9,14 +9,6 @@ import (
 	capturer "github.com/kami-zh/go-capturer"
 )
 
-// CompareError (are the errors the same?)
-func CompareError(actual error, expected error) bool {
-	a := (actual != nil && expected != nil && actual.Error() == expected.Error())
-	b := (actual == nil && expected == nil)
-
-	return a || b
-}
-
 // Run command string
 func Run(cmd string) ([]byte, error) {
 	command := exec.Command("sh", "-c", cmd)
