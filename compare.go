@@ -37,15 +37,16 @@ func CompareCommand(t *testing.T, tc TestCase, update *bool) *GoldenResult {
 	r := &GoldenResult{}
 
 	_, r.Command = LoadTestFile(t, "testdata", tc.Name+".input")
-	golden, _ := LoadTestFile(t, "testdata", tc.Name+".golden")
+	golden, expected := LoadTestFile(t, "testdata", tc.Name+".golden")
 	r.Actual, _ = Run(string(r.Command))
 
 	if *update {
 		err := ioutil.WriteFile(golden, r.Actual, 0644)
+		expected, _ = ioutil.ReadFile(golden)
 		r.Updated = (err == nil)
 	}
 
-	r.Expected, _ = ioutil.ReadFile(golden)
+	r.Expected = expected
 	r.Match = bytes.Equal(r.Actual, r.Expected)
 
 	return r
