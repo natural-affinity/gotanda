@@ -3,6 +3,7 @@ package gotanda
 import (
 	"bytes"
 	"io/ioutil"
+	"path/filepath"
 	"testing"
 )
 
@@ -35,18 +36,17 @@ func (gr *GoldenResult) Assert(t *testing.T, tc TestCase) {
 // CompareCommand (does .input command result in .golden output?)
 func CompareCommand(t *testing.T, tc TestCase, update *bool) *GoldenResult {
 	r := &GoldenResult{}
+	golden := filepath.Join("testdata", tc.Name+".golden")
 
 	_, r.Command = LoadTestFile(t, "testdata", tc.Name+".input")
-	golden, expected := LoadTestFile(t, "testdata", tc.Name+".golden")
 	r.Actual, _ = Run(string(r.Command))
 
 	if *update {
 		err := ioutil.WriteFile(golden, r.Actual, 0644)
-		expected, _ = ioutil.ReadFile(golden)
 		r.Updated = (err == nil)
 	}
 
-	r.Expected = expected
+	r.Expected, _ = ioutil.ReadFile(golden)
 	r.Match = bytes.Equal(r.Actual, r.Expected)
 
 	return r
