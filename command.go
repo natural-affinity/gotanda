@@ -31,7 +31,7 @@ func LoadTestFile(t *testing.T, dir string, name string) (string, []byte) {
 }
 
 // Capture Output
-func Capture(p func()) bytes.Buffer {
+func Capture(p func()) ([]byte, string) {
 	r, w, err := os.Pipe()
 	if err != nil {
 		panic(err)
@@ -49,5 +49,5 @@ func Capture(p func()) bytes.Buffer {
 	var buf bytes.Buffer
 	io.Copy(&buf, r)
 
-	return buf
+	return buf.Bytes(), buf.String()
 }

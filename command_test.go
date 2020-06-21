@@ -73,16 +73,16 @@ func TestCapture(t *testing.T) {
 	}
 
 	for _, tc := range cases {
-		buf := gotanda.Capture(func() {
+		abyte, astr := gotanda.Capture(func() {
 			fmt.Print(tc.Text)
 		})
 
-		byt := !bytes.Equal(buf.Bytes(), tc.Expected)
-		str := !(buf.String() == tc.Text)
+		byt := !bytes.Equal(abyte, tc.Expected)
+		str := !(astr == tc.Text)
 
 		if byt || str {
 			t.Errorf("Test: %s\nActual: %s\nExpected: %s\n",
-				tc.Name, buf.Bytes(), tc.Expected)
+				tc.Name, abyte, tc.Expected)
 		}
 	}
 }
