@@ -13,7 +13,6 @@ go doc gotanda <func|type>
 
 ## Links
 * [Golang Advanced Testing](https://speakerdeck.com/mitchellh/advanced-testing-with-go)
-* [Capturing Streams](https://github.com/zenizh/go-capturer)
 
 ## License
 Released under the MIT License. See [LICENSE.md](./LICENSE.md) for details.

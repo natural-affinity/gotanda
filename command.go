@@ -1,13 +1,12 @@
 package gotanda
 
 import (
-	"bytes"
-	"io"
 	"io/ioutil"
-	"os"
 	"os/exec"
 	"path/filepath"
 	"testing"
+
+	capturer "github.com/kami-zh/go-capturer"
 )
 
 // Run command string
@@ -32,22 +31,6 @@ func LoadTestFile(t *testing.T, dir string, name string) (string, []byte) {
 
 // Capture Output
 func Capture(p func()) ([]byte, string) {
-	r, w, err := os.Pipe()
-	if err != nil {
-		panic(err)
-	}
-
-	stdout := os.Stdout
-	os.Stdout = w
-	defer func() {
-		os.Stdout = stdout
-	}()
-
-	p()
-	w.Close()
-
-	var buf bytes.Buffer
-	io.Copy(&buf, r)
-
-	return buf.Bytes(), buf.String()
+	str := capturer.CaptureStdout(p)
+	return []byte(str), str
 }
